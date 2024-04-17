@@ -1,10 +1,9 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 dependencies:
+  '@tiptap/core':
+    specifier: ^2.3.0
+    version: 2.3.0(@tiptap/pm@2.3.0)
   '@tiptap/extension-document':
     specifier: ^2.3.0
     version: 2.3.0(@tiptap/core@2.3.0)
@@ -2206,3 +2205,7 @@ packages:
     engines: {node: '>= 14'}
     hasBin: true
     dev: true
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false

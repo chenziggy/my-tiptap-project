@@ -7,7 +7,7 @@
       <el-button type="primary" class="mt-4 !mx-2" @click="toggleEditable">toggleEditable</el-button>
 
     </div>
-    <editor-content :editor="editor" />
+    <editor-content class="flex-1" :editor="editor" />
   </div>
 </template>
 
@@ -17,12 +17,18 @@ import StarterKit from '@tiptap/starter-kit'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+ 
+import VueComponent from './TiptapExtension/extension'
 
 const editor = useEditor({
-  content: `<p class="w-10" style="background: white">I’m running Tiptap with Vue.js. 🎉</p>`,
+  content: `<span>span</span><p  style="background: white">I’m running Tiptap with Vue.js. I’m running Tiptap with Vue.js. I’m running Tiptap with Vue.js. I’m running Tiptap with Vue.js. I’m running Tiptap with Vue.js. I’m running Tiptap with Vue.js. I’m running Tiptap with Vue.js. I’m running Tiptap with Vue.js. I’m running Tiptap with Vue.js. I’m running Tiptap with Vue.js. 🎉         </p><vue-component count="0"></vue-component>
+`,
   extensions: [
     StarterKit,
-    Document
+    Paragraph,
+    Document,
+    Text,
+    VueComponent
   ],
 })
 
