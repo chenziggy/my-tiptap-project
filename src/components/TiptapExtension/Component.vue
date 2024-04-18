@@ -1,8 +1,6 @@
 <template>
   <node-view-wrapper class="vue-component">
-    <div>
-      hahaha
-      <el-select style="width: 100px" v-model="value">
+      嘻嘻嘻嘻<el-select v-if="active" size="small" class="!w-32" v-model="value">
         <el-option
         v-for="item in options"
         :key="item.value"
@@ -10,7 +8,7 @@
         :value="item.value"
       />
       </el-select>
-    </div>
+      <span v-else style="text-decoration: underline;" @click="active = true">&nbsp&nbsp{{ value }}&nbsp&nbsp </span>
   </node-view-wrapper>
 </template>
 
@@ -19,9 +17,15 @@ import { defineProps } from 'vue';
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 
 
+const active = ref(true)
+const value = ref()
+
+watch(value, (val) => {
+  if (val) {
+    active.value = false
+  }
+})
   const props= defineProps({})
-  console.log("🚀 ~ props:", props)
-  const value = ref()
     const options = [
   {
     value: 'Option1',
@@ -50,7 +54,10 @@ import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 .vue-component {
   margin: 1rem 0;
   /* position: relative; */
-  display: inline-flex;
+  display: inline;
+  width: 40px;
+  height: 40px;
+
 }
 
 

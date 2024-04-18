@@ -6,10 +6,11 @@ import Component from './Component.vue'
 export default Node.create({
   name: 'vueComponent',
 
-  group: 'block',
-
+  group: 'inline',
+  content: 'inline*',
+  inline: true,
+  selectable: false,
   atom: true,
-
   addAttributes() {
     return {
       count: {
