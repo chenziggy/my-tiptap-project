@@ -1,14 +1,9 @@
 <template>
-  <node-view-wrapper class="vue-component">
-      嘻嘻嘻嘻<el-select v-if="active" size="small" class="!w-32" v-model="value">
-        <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-      </el-select>
-      <span v-else style="text-decoration: underline;" @click="active = true">&nbsp&nbsp{{ value }}&nbsp&nbsp </span>
+  <node-view-wrapper style="width: 200px;display: inline-block">
+    <el-select v-if="active" size="small" v-model="value">
+      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+    </el-select>
+    <span v-else style="text-align: left ;border-bottom: 1px solid #000;width: 100%; display: inline-block" @click="active = true">{{ value }}&nbsp&nbsp </span>
   </node-view-wrapper>
 </template>
 
@@ -25,8 +20,8 @@ watch(value, (val) => {
     active.value = false
   }
 })
-  const props= defineProps({})
-    const options = [
+const props = defineProps({})
+const options = [
   {
     value: 'Option1',
     label: 'Option1',
@@ -50,7 +45,7 @@ watch(value, (val) => {
 ]
 </script>
 
-<style >
+<style>
 .vue-component {
   margin: 1rem 0;
   /* position: relative; */

@@ -5,13 +5,15 @@
       <el-button type="primary" class="mt-4 !mx-2" @click="getJSON">json</el-button>
       <el-button type="primary" class="mt-4 !mx-2" @click="setOptions">setOptions</el-button>
       <el-button type="primary" class="mt-4 !mx-2" @click="toggleEditable">toggleEditable</el-button>
-      <el-button type="primary" class="mt-4 !mx-2" @click="printHTML">print-js</el-button>
+      <el-button type="primary" class="mt-4 !mx-2" @click="printPDF">print-pdf</el-button>
+      <el-button type="primary" class="mt-4 !mx-2" @click="printHTML">print-html</el-button>
       <el-button type="primary" class="mt-4 !mx-2" @click="consoleEdit">consoleEdit</el-button>
+      <el-button type="primary" class="mt-4 !mx-2" @click="setContent">setContent</el-button>
 
     </div>
     <div class="overflow-auto">
-      <div class="page">
-      <editor-content id="editor" class="subpage" :editor="editor" />
+      <div class="m-10">
+      <editor-content id="editor" class="page" :editor="editor" />
     </div>
     </div>
   </div>
@@ -30,18 +32,24 @@ import Table from '@tiptap/extension-table'
 import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
-
+import printJS from 'print-js'
 
 const editor = useEditor({
-content: ` 
-  <p  style="font-family: KaiTi">
-    嘻嘻
-  <span  style="font-family: KaiTi">昂昂哈</span>  
-    <vue-component count="0"></vue-component>
-      <vue-component count="0"></vue-component>
-    </p> 
+content: 
+// ` 
+//   <p style="font-family: KaiTi">
+//     嘻嘻
+//   <span  style="font-family: KaiTi">昂昂哈</span>  AHHAHADSFSAFL; D;SFJ
+//     <vue-component style="width: 400px" count="0"></vue-component>
+//       <vue-component count="0"></vue-component>
+//     </p> 
 
-`,
+// `
+`<span style="font-size: 16px">
+  3</span>
+`
+,
+  // editable: false,
   extensions: [
     StarterKit,
     // Paragraph,
@@ -64,14 +72,26 @@ content: `
   ],
 })
 
+function setContent() {
+  editor.value.commands.setContent(`<hahaha count="0"></hahaha>`)
+}
+
 function consoleEdit() {
   console.log(editor.value)
 }
 
-function printHTML() {
+function printHTML () {
+  printJS({
+    printable: 'editor',
+    type: 'html',
+    css: 'style/print.css',
+  })
+}
+
+function printPDF() {
   const pdfOption = {
      jsPDF: {
-       unit: 'px',
+       unit: 'pt',
        format: 'a4',
      },
       spin: false,
@@ -106,99 +126,20 @@ function getJSON() {
 </script>
 
 <style>
-.tiptap {
-  table {
-    border-collapse: collapse;
-    table-layout: fixed;
-    width: 100%;
-    margin: 0;
-    overflow: hidden;
-
-    td,
-    th {
-      min-width: 1em;
-      border: 2px solid #ced4da;
-      padding: 3px 5px;
-      vertical-align: top;
-      box-sizing: border-box;
-      position: relative;
-
-      > * {
-        margin-bottom: 0;
-      }
-    }
-
-    th {
-      font-weight: bold;
-      text-align: left;
-      background-color: #f1f3f5;
-    }
-
-    .selectedCell:after {
-      z-index: 2;
-      position: absolute;
-      content: "";
-      left: 0; right: 0; top: 0; bottom: 0;
-      background: rgba(200, 200, 255, 0.4);
-      pointer-events: none;
-    }
-
-    .column-resize-handle {
-      position: absolute;
-      right: -2px;
-      top: 0;
-      bottom: -2px;
-      width: 4px;
-      /* background-color: #adf; */
-      pointer-events: none;
-    }
-
-    p {
-      margin: 0;
-    }
+  
+  .page {
+    width: 21cm; /* A4 页面宽度 */
+    height: 29.7cm; /* A4 页面高度 */
+    /* margin: 2cm; 页边距 */
+    padding: 1cm; /* 内容区域内边距 */
+    /* border: 1px solid black; 边框 */
+    font-family: Arial, sans-serif; /* 字体 */
+    font-size: 12pt; /* 字号 */
+    line-height: 2.4; /* 行间距 */
+    text-align: justify; /* 段落两端对齐 */
   }
-}
 
-.tableWrapper {
-  padding: 1rem 0;
-  overflow-x: auto;
-}
-
-
-* {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-}
-.page {
-    width: 21cm;
-    min-height: 29.7cm;
-    padding: 2cm;
-    margin: 1cm auto;
-    border: 1px #D3D3D3 solid;
-    border-radius: 5px;
-    background: white;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-.subpage {
-    padding: 1cm;
-    height: 256mm;
-    outline: 2cm #dadada solid;
-}
-
-@page {
-    size: A4;
-    margin: 0;
-}
-@media print {
-    .page {
-        margin: 0;
-        border: initial;
-        border-radius: initial;
-        width: initial;
-        min-height: initial;
-        box-shadow: initial;
-        background: initial;
-        page-break-after: always;
-    }
-}
+  .page p {
+    font-size: 12pt;
+  }
 </style>
