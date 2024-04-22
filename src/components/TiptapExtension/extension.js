@@ -36,41 +36,6 @@ const VueComponent=  Node.create({
   },
 })
 
-import Div from './Div.vue'
-
-const VueDiv=  Node.create({
-  name: 'VueDiv',
-
-  group: 'inline',
-  content: 'inline*',
-  inline: true,
-  selectable: false,
-  atom: true,
-  addAttributes() {
-    return {
-      style: {
-        default: 0,
-      },
-    }
-  },
-
-  parseHTML() {
-    return [
-      {
-        tag: 'vue-div',
-      },
-    ]
-  },
-
-  renderHTML({ HTMLAttributes }) {
-    return ['div', mergeAttributes(HTMLAttributes)]
-  },
-
-  addNodeView() {
-    return VueNodeViewRenderer(Div)
-  },
-})
 export {
   VueComponent,
-  VueDiv
 }
