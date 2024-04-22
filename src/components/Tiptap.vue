@@ -9,6 +9,14 @@
       <el-button type="primary" class="mt-4 !mx-2" @click="printHTML">print-html</el-button>
       <el-button type="primary" class="mt-4 !mx-2" @click="consoleEdit">consoleEdit</el-button>
       <el-button type="primary" class="mt-4 !mx-2" @click="setContent">setContent</el-button>
+      <el-button type="primary" class="mt-4 !mx-2" @click="updateAttributes">updateAttributes</el-button>
+      <el-button type="primary" class="mt-4 !mx-2" @click="toggleBold">toggleBold</el-button>
+      <el-button type="primary" class="mt-4 !mx-2" @click="setFontfamily">setFontfamily</el-button>
+      <el-button type="primary" class="mt-4 !mx-2" @click="setStyle">setStyle</el-button>
+      <el-button type="primary" class="mt-4 !mx-2" @click="setStyle1">setStyle1</el-button>
+      <el-button type="primary" class="mt-4 !mx-2" @click="editor.commands.insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+">insertTable</el-button>
+    
 
     </div>
     <div class="overflow-auto">
@@ -23,7 +31,7 @@
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
-import VueComponent from './TiptapExtension/extension'
+import {VueComponent} from './TiptapExtension/extension'
 import TextStyle from '@tiptap/extension-text-style'
 import FontFamily from '@tiptap/extension-font-family'
 import TextAlign from '@tiptap/extension-text-align'
@@ -33,30 +41,31 @@ import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import printJS from 'print-js'
+import style from './TiptapExtension/styleCommon'
+
 
 const editor = useEditor({
-content: 
-// ` 
-//   <p style="font-family: KaiTi">
-//     嘻嘻
-//   <span  style="font-family: KaiTi">昂昂哈</span>  AHHAHADSFSAFL; D;SFJ
-//     <vue-component style="width: 400px" count="0"></vue-component>
-//       <vue-component count="0"></vue-component>
-//     </p> 
-
-// `
-`<span style="font-size: 16px">
-  3</span>
-`
-,
-  // editable: false,
+  injectCSS: true,
+  content: 
+  `
+  <h1>传 唤 证</h1>
+          
+  <p>根据《中华人民共和国刑事诉讼法》第一百一十九条之规</p>
+  <p>定，兹传唤涉嫌	<vue-component></vue-component>
+  的犯罪嫌疑人	(FZXYR01)[FZXYR_XM]
+  </p>
+  `,
+  editable: true,
+  editorProps: {
+    attributes: {
+      class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',
+    },
+  },
   extensions: [
     StarterKit,
-    // Paragraph,
-    // Document,
-    // Text,
     VueComponent,
     Underline,
+    style,
     TextStyle,
     FontFamily,
     TextAlign.configure({
@@ -69,8 +78,39 @@ content:
     TableRow,
     TableHeader,
     TableCell,
-  ],
+  ]
 })
+
+
+function setStyle1() {
+  const res =editor.value.chain().focus().setStyle({ color: 'blue', fontWeight: 'bold', lineHeight: '100px', fontSize: '30px'}).run()
+  
+}
+
+
+function setStyle() {
+  const res =editor.value.chain().focus().setStyle({ color: 'red'}).run()
+
+}
+
+
+function setFontfamily() {
+  const res =editor.value.chain().focus().setFontFamily('Corbel Light Italic').run()
+}
+
+
+
+function toggleBold() {
+  editor.value
+  .chain()
+  .focus()
+  .toggleBold()
+  .run()
+}
+function updateAttributes() {
+  const res = editor.value.can().chain().focus()
+  .updateAttributes( {style: 'color: yellow'}).run()
+}
 
 function setContent() {
   editor.value.commands.setContent(`<hahaha count="0"></hahaha>`)
@@ -115,7 +155,6 @@ function setOptions() {
 
 function getHTML() {
   console.log(editor.value.getHTML())
-  console.log(editor.value.$doc)
 }
 
 
@@ -123,10 +162,13 @@ function getJSON() {
   console.log(editor.value.getJSON())
 }
 
+onUnmounted(() => {
+  editor.value.destroy()
+})
+
 </script>
 
 <style>
-  
   .page {
     width: 21cm; /* A4 页面宽度 */
     height: 29.7cm; /* A4 页面高度 */
