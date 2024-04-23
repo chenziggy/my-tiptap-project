@@ -37,7 +37,6 @@ declare module '@tiptap/core' {
               if (!attributes.width) {
                 return {}
               }
-              console.log(attributes.width)
               return {
                 style: `width: ${attributes.width}`,
               }

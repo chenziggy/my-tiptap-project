@@ -37,7 +37,6 @@ declare module '@tiptap/core' {
               if (!attributes.display) {
                 return {}
               }
-              console.log(attributes.display)
               return {
                 style: `display: ${attributes.display}`,
               }
