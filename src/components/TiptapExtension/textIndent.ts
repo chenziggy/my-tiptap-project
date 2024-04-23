@@ -37,7 +37,6 @@ declare module '@tiptap/core' {
               if (!attributes.textIndent) {
                 return {}
               }
-              console.log(attributes.textIndent)
               return {
                 style: `text-indent: ${attributes.textIndent}; display: inline-block`,
               }

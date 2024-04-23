@@ -37,7 +37,6 @@ declare module '@tiptap/core' {
               if (!attributes.textAlignLast) {
                 return {}
               }
-              console.log(attributes.textAlignLast)
               return {
                 style: `text-align-last: ${attributes.textAlignLast}`,
               }
