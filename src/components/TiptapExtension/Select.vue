@@ -1,6 +1,6 @@
 <template>
   <node-view-wrapper :style="`width: ${node.attrs.width };display: inline-block`">
-    <el-select v-show="active" size="small" v-model="value" ref="select">
+    <el-select clearable  v-show="active" size="small" v-model="value" ref="select">
       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
     </el-select>
     <span v-show="!active" style="text-align: left ;border-bottom: 1px solid #000;width: 100%; display: inline-block" @click="active = true">{{ value }}&nbsp&nbsp </span>

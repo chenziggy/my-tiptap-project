@@ -1,7 +1,7 @@
 <template>
   <node-view-wrapper :style="`width: ${node.attrs.width };display: inline-block`">
-    <el-input ref="input" v-model="value"  v-if="active" @blur="active = false"/>
-    <span v-else style="text-align: left ;border-bottom: 1px solid #000;width: 100%; display: inline-block" @click="active = true">{{ value }} </span>
+    <el-input ref="input" v-model="value"  v-show="active" @blur="handleActive"/>
+    <span v-show="!active" style="text-align: left ;border-bottom: 1px solid #000;width: 100%; display: inline-block" @click="active = true">{{ value }} </span>
   </node-view-wrapper>
 </template>
 
@@ -19,10 +19,11 @@ watch(active, (val) => {
   })
 })
 
-// watch(value, (val) => {
-//   if (val) {
-//     active.value = false
-//   }
-// })
+function handleActive() {
+  if (value.value) {
+    active.value = false
+  }
+}
+
 
 </script>

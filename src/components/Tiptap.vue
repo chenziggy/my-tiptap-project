@@ -21,8 +21,21 @@
     </div>
     <div class="overflow-auto">
       <div class="m-10">
-      <editor-content id="editor" class="page" :editor="editor" />
+      <editor-content id="editor" class="page" :editor="editor"  @contextmenu.prevent="handleContextMenu"/>
     </div>
+    <Transition name="zoom-in-top">
+        <div
+          v-show="contextMenuReference" ref="floatingRef" :style="{
+            minWidth: 'max-content',
+            ...floatingStyles,
+            visibility: middlewareData.hide?.referenceHidden
+              ? 'hidden'
+              : 'visible',
+          }" bg="[--el-bg-color-overlay]" border="1 [--el-border-color]" z-10 rounded py-1
+        >
+          <div>menu</div>
+        </div>
+      </Transition>
     </div>
   </div>
 </template>
@@ -48,6 +61,7 @@ import Width from './TiptapExtension/width'
 import BorderBottom from './TiptapExtension/borderBottom'
 import Color from '@tiptap/extension-color'
 
+import { autoPlacement, offset, useFloating } from '@floating-ui/vue'
 
 const editor = useEditor({
   injectCSS: true,
@@ -187,6 +201,39 @@ function getJSON() {
 onUnmounted(() => {
   editor.value.destroy()
 })
+
+// 菜单节点上下文菜单
+const contextMenuReference = ref(null)
+const floatingRef = ref(null)
+const { floatingStyles, middlewareData } = useFloating(contextMenuReference, floatingRef, {
+  transform: false,
+  placement: 'bottom',
+  middleware: [autoPlacement(), offset({
+    crossAxis: 50,
+  })],
+})
+
+const currentContextMenuNode = ref()
+function handleContextMenu({ clientX, clientY }, data) {
+  contextMenuReference.value = null
+  nextTick(() => {
+    contextMenuReference.value = {
+      getBoundingClientRect() {
+        return {
+          width: 0,
+          height: 0,
+          x: clientX,
+          y: clientY,
+          top: clientY,
+          left: clientX,
+          bottom: 0,
+          right: 0,
+        }
+      },
+    }
+    currentContextMenuNode.value = data
+  })
+}
 
 </script>
 
