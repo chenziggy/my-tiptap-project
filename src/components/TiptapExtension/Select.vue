@@ -1,5 +1,5 @@
 <template>
-  <node-view-wrapper style="width: 200px;display: inline-block">
+  <node-view-wrapper :style="`width: ${node.attrs.width };display: inline-block`">
     <el-select v-if="active" size="small" v-model="value">
       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
     </el-select>
@@ -8,7 +8,6 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 
 
@@ -20,7 +19,6 @@ watch(value, (val) => {
     active.value = false
   }
 })
-const props = defineProps({})
 const options = [
   {
     value: 'Option1',
@@ -44,20 +42,3 @@ const options = [
   },
 ]
 </script>
-
-<style>
-.vue-component {
-  margin: 1rem 0;
-  /* position: relative; */
-  display: inline;
-  width: 40px;
-  height: 40px;
-
-}
-
-
-.content {
-  margin-top: 1.5rem;
-  padding: 1rem;
-}
-</style>

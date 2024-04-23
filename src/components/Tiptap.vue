@@ -13,11 +13,11 @@
       <el-button type="primary" class="mt-4 !mx-2" @click="textColorBlue">textColorBlue</el-button>
       <el-button type="primary" class="mt-4 !mx-2" @click="editor.commands.insertTable({ rows: 3, cols: 3, withHeaderRow: true })">insertTable</el-button>
       <el-button type="primary" class="mt-4 !mx-2" @click="setOneLineFull">one-line-full</el-button>
-
       <el-input v-model="fontSize"></el-input>
       <el-button type="primary" class="mt-4 !mx-2" @click="setFontSize">setFontSize</el-button>
       <el-input v-model="textIndent"></el-input>
       <el-button type="primary" class="mt-4 !mx-2" @click="setTextIndent">setTextIndent</el-button>
+      <el-button type="primary" class="mt-4 !mx-2" @click="setBorderBottom">setBorderBottom</el-button>
     </div>
     <div class="overflow-auto">
       <div class="m-10">
@@ -31,11 +31,10 @@
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
-import {VueComponent} from './TiptapExtension/extension'
+import {VueSelect, VueInput} from './TiptapExtension/extension'
 import TextStyle from '@tiptap/extension-text-style'
 import FontFamily from '@tiptap/extension-font-family'
 import TextAlign from '@tiptap/extension-text-align'
-import printHtmlToPDF from "print-html-to-pdf"
 import Table from '@tiptap/extension-table'
 import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
@@ -46,13 +45,15 @@ import TextIndent from './TiptapExtension/textIndent'
 import Display from './TiptapExtension/display'
 import TextAlignLast from './TiptapExtension/textAlignLast'
 import Width from './TiptapExtension/width'
+import BorderBottom from './TiptapExtension/borderBottom'
 import Color from '@tiptap/extension-color'
 
 
 const editor = useEditor({
   injectCSS: true,
-  content: `
-  <h2 style="text-align: center"><span style="font-family: SimSun">开发省厅甲市公安局二区公安局地字号派出所</span></h2><h1 style="text-align: center"><span style="font-family: SimSun; font-size: 22pt">传 唤 证</span></h1><p style="text-align: right"><span style="font-family: SimSun; font-size: 16pt">地公（地字号）传字〔2021〕9 号</span></p><p><span style="font-family: SimSun; font-size: 16pt; text-indent: 30pt; display: inline-block; text-align-last: justify; display: inline-block; width: 100%">根据《中华人民共和国刑事诉讼法》第一百一十九条之规</span></p><p><span style="font-family: SimSun; font-size: 16pt">定，兹传唤涉嫌asd 罪的犯罪嫌疑人纤纤</span></p><p><span style="font-family: SimSun; font-size: 16pt">（性别男，出生日期2021年05月13日，住址纷纷</span></p><p><span style="font-family: SimSun; font-size: 16pt">）于2022年01月21日 11时到as</span></p><p><span style="font-family: SimSun; font-size: 16pt">接受</span></p><p><span style="font-family: SimSun; font-size: 16pt">讯问。无正当理由拒不接受传唤的，可以依法拘传。</span></p><p></p><p></p><p style="text-align: right"><span style="font-family: SimSun; font-size: 12pt">开发省厅甲市公安局二区公安局地字号派出所</span></p><p style="text-align: right"><span style="font-family: SimSun; font-size: 16pt">二〇二二年一月二十一日</span></p>
+  content: 
+  `
+  <h2 style="text-align: center"><span style="font-family: SimSun">开发省厅甲市公安局二区公安局地字号派出所</span></h2><h1 style="text-align: center"><span style="font-family: SimSun">传 唤 证</span></h1><p style="text-align: right"><span style="font-family: SimSun; font-size: 16pt">地公（地字号）传字〔2021〕9 号</span></p><p><span style="font-family: SimSun; font-size: 16pt; text-indent: 30pt; display: inline-block; text-align-last: justify; display: inline-block; width: 100%">根据《中华人民共和国刑事诉讼法》第一百一十九条之规</span></p><p><span style="font-family: SimSun; font-size: 16pt">定，兹传唤涉嫌 <vue-select width="200px"></vue-select> 罪的犯罪嫌疑人<vue-input width="180px"></vue-input></span></p><p><span style="font-family: SimSun; font-size: 16pt">（性别男，出生日期2021年05月13日，住址纷纷</span></p><p><span style="font-family: SimSun; font-size: 16pt">）于2022年01月21日 11时到as</span></p><p><span style="font-family: SimSun; font-size: 16pt">接受</span></p><p><span style="font-family: SimSun; font-size: 16pt">讯问。无正当理由拒不接受传唤的，可以依法拘传。</span></p><p></p><p></p><p style="text-align: right"><span style="font-family: SimSun; font-size: 12pt">开发省厅甲市公安局二区公安局地字号派出所</span></p><p style="text-align: right"><span style="font-family: SimSun; font-size: 16pt">二〇二二年一月二十一日</span></p>
   `,
   editable: true,
   editorProps: {
@@ -62,7 +63,8 @@ const editor = useEditor({
   },
   extensions: [
     StarterKit,
-    VueComponent,
+    VueSelect,
+    VueInput,
     Underline,
     Color,
     TextStyle,
@@ -81,10 +83,16 @@ const editor = useEditor({
     TextIndent,
     TextAlignLast,
     Display,
-    Width
+    Width,
+    BorderBottom,
   ]
 })
 
+
+function setBorderBottom() {
+  editor.value.chain().focus().setBorderBottom(`1px solid #000`).run()
+
+}
 
 function setOneLineFull() {
   editor.value.chain().focus().setWidth("100%").setDisplay('inline-block').setTextAlignLast('justify').run()
@@ -150,7 +158,7 @@ function printPDF() {
       spin: false,
       fileName: 'default'
    }
-  printHtmlToPDF.print(document.getElementById('editor'), pdfOption)
+  // printHtmlToPDF.print(document.getElementById('editor'), pdfOption)
 }
 
 function toggleEditable() {
