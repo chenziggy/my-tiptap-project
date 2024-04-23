@@ -12,6 +12,12 @@
       <el-button type="primary" class="mt-4 !mx-2" @click="textColorRed">textColorRed</el-button>
       <el-button type="primary" class="mt-4 !mx-2" @click="textColorBlue">textColorBlue</el-button>
       <el-button type="primary" class="mt-4 !mx-2" @click="editor.commands.insertTable({ rows: 3, cols: 3, withHeaderRow: true })">insertTable</el-button>
+      <el-button type="primary" class="mt-4 !mx-2" @click="setOneLineFull">one-line-full</el-button>
+
+      <el-input v-model="fontSize"></el-input>
+      <el-button type="primary" class="mt-4 !mx-2" @click="setFontSize">setFontSize</el-button>
+      <el-input v-model="textIndent"></el-input>
+      <el-button type="primary" class="mt-4 !mx-2" @click="setTextIndent">setTextIndent</el-button>
     </div>
     <div class="overflow-auto">
       <div class="m-10">
@@ -35,20 +41,18 @@ import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import printJS from 'print-js'
-// import TextColor from './TiptapExtension/textColor'
+import FontSize from './TiptapExtension/fontSize'
+import TextIndent from './TiptapExtension/textIndent'
+import Display from './TiptapExtension/display'
+import TextAlignLast from './TiptapExtension/textAlignLast'
+import Width from './TiptapExtension/width'
 import Color from '@tiptap/extension-color'
 
 
 const editor = useEditor({
   injectCSS: true,
-  content: 
-  `
-  <h1>传 唤 证</h1>
-  <span style="color: #e5423a">111</span>
-  <p>根据《中华人民共和国刑事诉讼法》第一百一十九条之规</p>
-  <p>定，兹传唤涉嫌	<vue-component></vue-component>
-  的犯罪嫌疑人	(FZXYR01)[FZXYR_XM]
-  </p>
+  content: `
+  <h2 style="text-align: center"><span style="font-family: SimSun">开发省厅甲市公安局二区公安局地字号派出所</span></h2><h1 style="text-align: center"><span style="font-family: SimSun; font-size: 22pt">传 唤 证</span></h1><p style="text-align: right"><span style="font-family: SimSun; font-size: 16pt">地公（地字号）传字〔2021〕9 号</span></p><p><span style="font-family: SimSun; font-size: 16pt; text-indent: 30pt; display: inline-block; text-align-last: justify; display: inline-block; width: 100%">根据《中华人民共和国刑事诉讼法》第一百一十九条之规</span></p><p><span style="font-family: SimSun; font-size: 16pt">定，兹传唤涉嫌asd 罪的犯罪嫌疑人纤纤</span></p><p><span style="font-family: SimSun; font-size: 16pt">（性别男，出生日期2021年05月13日，住址纷纷</span></p><p><span style="font-family: SimSun; font-size: 16pt">）于2022年01月21日 11时到as</span></p><p><span style="font-family: SimSun; font-size: 16pt">接受</span></p><p><span style="font-family: SimSun; font-size: 16pt">讯问。无正当理由拒不接受传唤的，可以依法拘传。</span></p><p></p><p></p><p style="text-align: right"><span style="font-family: SimSun; font-size: 12pt">开发省厅甲市公安局二区公安局地字号派出所</span></p><p style="text-align: right"><span style="font-family: SimSun; font-size: 16pt">二〇二二年一月二十一日</span></p>
   `,
   editable: true,
   editorProps: {
@@ -73,8 +77,33 @@ const editor = useEditor({
     TableRow,
     TableHeader,
     TableCell,
+    FontSize,
+    TextIndent,
+    TextAlignLast,
+    Display,
+    Width
   ]
 })
+
+
+function setOneLineFull() {
+  editor.value.chain().focus().setWidth("100%").setDisplay('inline-block').setTextAlignLast('justify').run()
+}
+
+const fontSize = ref('')
+
+const textIndent = ref('')
+function setTextIndent() {
+  editor.value.chain().focus().setTextIndent(`${textIndent.value}`).run()
+
+}
+
+
+
+function setFontSize() {
+  console.log(fontSize.value)
+  editor.value.chain().focus().setFontSize(`${fontSize.value}`).run()
+}
 
 
 function textColorBlue() {
