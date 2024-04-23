@@ -7,17 +7,11 @@
       <el-button type="primary" class="mt-4 !mx-2" @click="toggleEditable">toggleEditable</el-button>
       <el-button type="primary" class="mt-4 !mx-2" @click="printPDF">print-pdf</el-button>
       <el-button type="primary" class="mt-4 !mx-2" @click="printHTML">print-html</el-button>
-      <el-button type="primary" class="mt-4 !mx-2" @click="consoleEdit">consoleEdit</el-button>
-      <el-button type="primary" class="mt-4 !mx-2" @click="setContent">setContent</el-button>
-      <el-button type="primary" class="mt-4 !mx-2" @click="updateAttributes">updateAttributes</el-button>
       <el-button type="primary" class="mt-4 !mx-2" @click="toggleBold">toggleBold</el-button>
-      <el-button type="primary" class="mt-4 !mx-2" @click="setFontfamily">setFontfamily</el-button>
-      <el-button type="primary" class="mt-4 !mx-2" @click="setStyle">setStyle</el-button>
-      <el-button type="primary" class="mt-4 !mx-2" @click="setStyle1">setStyle1</el-button>
-      <el-button type="primary" class="mt-4 !mx-2" @click="editor.commands.insertTable({ rows: 3, cols: 3, withHeaderRow: true })
-">insertTable</el-button>
-    
-
+      <el-button type="primary" class="mt-4 !mx-2" @click="setFontFamily">setFontFamily</el-button>
+      <el-button type="primary" class="mt-4 !mx-2" @click="textColorRed">textColorRed</el-button>
+      <el-button type="primary" class="mt-4 !mx-2" @click="textColorBlue">textColorBlue</el-button>
+      <el-button type="primary" class="mt-4 !mx-2" @click="editor.commands.insertTable({ rows: 3, cols: 3, withHeaderRow: true })">insertTable</el-button>
     </div>
     <div class="overflow-auto">
       <div class="m-10">
@@ -41,7 +35,8 @@ import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import printJS from 'print-js'
-import style from './TiptapExtension/styleCommon'
+// import TextColor from './TiptapExtension/textColor'
+import Color from '@tiptap/extension-color'
 
 
 const editor = useEditor({
@@ -49,7 +44,7 @@ const editor = useEditor({
   content: 
   `
   <h1>传 唤 证</h1>
-          
+  <span style="color: #e5423a">111</span>
   <p>根据《中华人民共和国刑事诉讼法》第一百一十九条之规</p>
   <p>定，兹传唤涉嫌	<vue-component></vue-component>
   的犯罪嫌疑人	(FZXYR01)[FZXYR_XM]
@@ -65,11 +60,11 @@ const editor = useEditor({
     StarterKit,
     VueComponent,
     Underline,
-    style,
+    Color,
     TextStyle,
     FontFamily,
     TextAlign.configure({
-      types: ['paragraph'],
+      types: ['paragraph', 'heading'],
       defaultAlignment: 'left',
     }),
     Table.configure({
@@ -82,20 +77,20 @@ const editor = useEditor({
 })
 
 
-function setStyle1() {
-  const res =editor.value.chain().focus().setStyle({ color: 'blue', fontWeight: 'bold', lineHeight: '100px', fontSize: '30px'}).run()
+function textColorBlue() {
+  const res =editor.value.chain().focus().setColor("blue").run()
   
 }
 
 
-function setStyle() {
-  const res =editor.value.chain().focus().setStyle({ color: 'red'}).run()
+function textColorRed() {
+  const res =editor.value.chain().focus().setColor('red').run()
 
 }
 
 
-function setFontfamily() {
-  const res =editor.value.chain().focus().setFontFamily('Corbel Light Italic').run()
+function setFontFamily() {
+  const res =editor.value.chain().focus().setFontFamily('SimSun').run()
 }
 
 
@@ -107,18 +102,7 @@ function toggleBold() {
   .toggleBold()
   .run()
 }
-function updateAttributes() {
-  const res = editor.value.can().chain().focus()
-  .updateAttributes( {style: 'color: yellow'}).run()
-}
 
-function setContent() {
-  editor.value.commands.setContent(`<hahaha count="0"></hahaha>`)
-}
-
-function consoleEdit() {
-  console.log(editor.value)
-}
 
 function printHTML () {
   printJS({
@@ -143,6 +127,7 @@ function printPDF() {
 function toggleEditable() {
   editor.value.setEditable(!editor.value.isEditable)
 }
+
 function setOptions() {
   editor.value?.setOptions({
     editorProps: {

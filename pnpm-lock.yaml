@@ -8,6 +8,9 @@ dependencies:
   '@tiptap/core':
     specifier: ^2.3.0
     version: 2.3.0(@tiptap/pm@2.3.0)
+  '@tiptap/extension-color':
+    specifier: ^2.3.0
+    version: 2.3.0(@tiptap/core@2.3.0)(@tiptap/extension-text-style@2.3.0)
   '@tiptap/extension-document':
     specifier: ^2.3.0
     version: 2.3.0(@tiptap/core@2.3.0)
@@ -668,6 +671,16 @@ packages:
       '@tiptap/core': ^2.0.0
     dependencies:
       '@tiptap/core': 2.3.0(@tiptap/pm@2.3.0)
+    dev: false
+
+  /@tiptap/extension-color@2.3.0(@tiptap/core@2.3.0)(@tiptap/extension-text-style@2.3.0):
+    resolution: {integrity: sha512-rqtdTaGawPZSRszwC/BlkJTF1diosIBBRSO5/YCRHT7CfGJNJyomL3eFREynXLKnXZ69SMceDh6yU6B54uTHXQ==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+      '@tiptap/extension-text-style': ^2.0.0
+    dependencies:
+      '@tiptap/core': 2.3.0(@tiptap/pm@2.3.0)
+      '@tiptap/extension-text-style': 2.3.0(@tiptap/core@2.3.0)
     dev: false
 
   /@tiptap/extension-document@2.3.0(@tiptap/core@2.3.0):
